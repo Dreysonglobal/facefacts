@@ -136,27 +136,27 @@ const products =[
     },
     {
         "id":  19,
-        "name":  "Simple purifying gel wash",
-        "brand":  "Simple",
-        "price":  4500,
-        "image":  "images/Simple purifying gel wash.jpg",
-        "outOfStock": true
+        "name":  "PDRN Elasticity Support Capsule Cream",
+        "brand":  "Facefacts",
+        "price":  6000,
+        "image":  "images/PDRN Elasticity Support Capsule Cream.webp",
+        "outOfStock": false
     },
     {
         "id":  20,
-        "name":  "Simple age resisting wash",
-        "brand":  "Simple",
-        "price":  4500,
-        "image":  "images/Simple age resisting wash.jpg",
-        "outOfStock": true
+        "name":  "PDRN Sculpting Contour Serum",
+        "brand":  "Facefacts",
+        "price":  6000,
+        "image":  "images/PDRN Sculpting Contour Serum.webp",
+        "outOfStock": false
     },
     {
         "id":  21,
-        "name":  "Simple Micellar gel wash",
-        "brand":  "Simple",
-        "price":  4500,
-        "image":  "images/Simple Micellar gel wash.jpg",
-        "outOfStock": true
+        "name":  "PDRN Smoothing Eye Serum Shot",
+        "brand":  "Facefacts",
+        "price":  4000,
+        "image":  "images/PDRN Smoothing Eye Serum Shot.webp",
+        "outOfStock": false
     },
     {
         "id":  22,
@@ -571,7 +571,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  6000,
         "image":  "images/81- Facefacts, hyaluronic body lotion 6000naira.jpg",
-        "outOfStock": true
+        "outOfStock": false
     },
     {
         "id":  81,
@@ -628,7 +628,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  1500,
         "image":  "images/89- Facefacts, vitamin c sheet mask 1500naira.jpg",
-        "outOfStock": true
+        "outOfStock": false
     },
     {
         "id":  89,
@@ -653,11 +653,11 @@ const products =[
     },
     {
         "id":  92,
-        "name":  "Facefacts, smoothing honey peel off mask",
+        "name":  "PDRN Revitalising Moisturiser",
         "brand":  "Facefacts",
-        "price":  1300,
-        "image":  "images/93- Facefacts, smoothing honey peel off mask 1300naira.jpg",
-        "outOfStock": true
+        "price":  6000,
+        "image":  "images/PDRN Revitalising Moisturiser.webp",
+        "outOfStock": false
     },
     {
         "id":  93,
@@ -665,7 +665,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  1300,
         "image":  "images/94- Facefacts, energizing orange peel off mask 1300naira.jpg",
-        "outOfStock": true
+        "outOfStock": false
 
     },
     {
@@ -824,11 +824,11 @@ const products =[
     },
     {
         "id":  116,
-        "name":  "Vaseline, gluta-hya serum burst uv lotion",
-        "brand":  "Vaseline",
+        "name":  "Shimmer Gloss Wand - Champagne Sparkle",
+        "brand":  "Facefacts",
         "price":  7500,
-        "image":  "images/117- Vaseline, gluta-hya serum burst uv lotion 7500naira.jpg",
-        "outOfStock": true
+        "image":  "images/Shimmer Gloss Wand - Champagne Sparkle.webp",
+        "outOfStock": false
 
     },
     {
@@ -1061,7 +1061,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  6000,
         "image":  "images/150- Facefacts, gel-cream moisturiser 6000naira.jpg",
-        "outOfStock": true
+        "outOfStock": false
     },
     {
         "id":  150,
@@ -1104,7 +1104,7 @@ const products =[
         "brand":  "dove body lotion",
         "price":  5500,
         "image":  "images/156- dove body lotion, intense care 5500naira.jpg",
-        "outOfStock": true
+        "outOfStock": false
     },
     {
         "id":  156,
@@ -1112,7 +1112,7 @@ const products =[
         "brand":  "dove body lotion",
         "price":  5500,
         "image":  "images/156- dove body lotion, restoring care 5500naira.jpg",
-        "outOfStock": true
+        "outOfStock": false
     },
     {
         "id":  157,
@@ -1137,11 +1137,11 @@ const products =[
     },
     {
         "id":  160,
-        "name":  "dove, beauty cream bar",
-        "brand":  "dove",
-        "price":  1000,
-        "image":  "images/160- dove, beauty cream bar.jpg",
-        "outOfStock": true
+        "name":  "Shimmer Gloss Wand - Moonlit Pearl",
+        "brand":  "Facefacts",
+        "price":  7500,
+        "image":  "images/Shimmer Gloss Wand - Moonlit Pearl.webp",
+        "outOfStock": false
     },
     {
         "id":  161,
@@ -1187,11 +1187,11 @@ const products =[
     },
     {
         "id":  167,
-        "name":  "dove pampering",
-        "brand":  "dove",
+        "name":  "Scủủp Peach Iced Tea Cooling Body Stick",
+        "brand":  "Facefacts",
         "price":  7500,
-        "image":  "images/167- dove pampering 7500naira.jpg",
-        "outOfStock": true
+        "image":  "images/Scủủp Peach Iced Tea Cooling Body Stick.webp",
+        "outOfStock": false
     },
     {
         "id":  168,
