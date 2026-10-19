@@ -10,7 +10,7 @@ const products =[
         "id":  1,
         "name":  "Nourish+ Restore Ceramide Serum",
         "brand":  "Facefacts",
-        "price":  37000,
+        "price":  3500,
         "image":  "images/facefact.webp",
         "outOfStock": false
 
