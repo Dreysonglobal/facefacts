@@ -865,7 +865,7 @@ const products =[
         "id":  430,
         "name":  "Facefacts, ceramide moisturing cream ceramides plus hyaluronic acid plus oats",
         "brand":  "Facefacts",
-        "price":  5500,
+        "price":  3000,
         "image":  "images/Facefacts, ceramide moisturing cream ceramides plus hyaluronic acid plus oats.webp"
     },
     {
