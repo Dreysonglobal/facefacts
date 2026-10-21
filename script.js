@@ -3,7 +3,7 @@ const STORE = {
   address: "Suite 2, Polaris Bank Plaza, Opposite Carpark, BBA, Trade Fair Complex",
   phone: "08142526229",
   whatsapp: "2348142526229",
-  email: "acaviennigltd@gmail.com"
+  email: "contact@facefactsnigeria.com.ng"
 };
 const products =[
     {
