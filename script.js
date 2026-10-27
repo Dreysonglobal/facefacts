@@ -832,18 +832,18 @@ const products =[
         "id":  160,
         "name":  "Shimmer Gloss Wand - Moonlit Pearl",
         "brand":  "Facefacts",
-        "price":  3500,
+        "price":  2500,
         "image":  "images/Shimmer Gloss Wand - Moonlit Pearl.webp",
-        "outOfStock": true
+        "outOfStock": false
     },
     
     {
         "id":  167,
         "name":  "Scủủp Peach Iced Tea Cooling Body Stick",
         "brand":  "Facefacts",
-        "price":  6000,
+        "price":  5000,
         "image":  "images/Scủủp Peach Iced Tea Cooling Body Stick.webp",
-        "outOfStock": true
+        "outOfStock": false
     },
     
     {
@@ -951,7 +951,123 @@ const products =[
         "brand":  "Facefacts",
         "price":  3000,
         "image":  "images/Facefacts, firm revitalise polypeptide serum.webp"
+    },
+    {
+        "id":  444,
+        "name":  "Facefact, ceramide oil control (Gift set)",
+        "brand":  "Facefacts",
+        "price":  12000,
+        "image":  "images/Facefact ceramide oil control Gift set.webp"
+    },
+    {
+        "id":  445,
+        "name":  "Facefact, Friday social spf 50 sunscreen",
+        "brand":  "Facefacts",
+        "price":  6500,
+        "image":  "images/Facefact Friday social spf 50 sunscreen.webp"
+    },
+    {
+        "id":  446,
+        "name":  "Facefact, matcha glow detox jelly cleanser",
+        "brand":  "Facefacts",
+        "price":  5000,
+        "image":  "images/Facefact matcha glow detox jelly cleanser.webp"
+    },
+    {
+        "id":  447,
+        "name":  "Facefact, matcha glow azelaic blemish serum",
+        "brand":  "Facefacts",
+        "price":  5000,
+        "image":  "images/Facefact matcha glow azelaic blemish serum.webp"
+    },
+    {
+        "id":  448,
+        "name":  "Facefact, matcha glow peptide water cream",
+        "brand":  "Facefacts",
+        "price":  5000,
+        "image":  "images/Facefact matcha glow peptide water cream.webp"
+    },
+    {
+        "id":  449,
+        "name":  "Facefact, Lip Butter SPF 50 Passion Fruit",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact Lip Butter SPF 50, Passion Fruit.webp"
+    },
+    {
+        "id":  450,
+        "name":  "Facefact, Lip Butter SPF 50 Blush Coral",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact, Lip Butter SPF 50 Blush Coral.webp"
+    },
+    {
+        "id":  451,
+        "name":  "Facefact, Lip Butter SPF 50 Zingy Lime",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact, Lip Butter SPF 50 Zingy Lime.webp"
+    },
+    {
+        "id":  452,
+        "name":  "Facefact, Lip Butter SPF 50 Velvet Nude",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact, Lip Butter SPF 50 Velvet Nude.webp"
+    },
+    {
+        "id":  453,
+        "name":  "Facefact, Lip Butter SPF 50 Red Cherry",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact, Lip Butter SPF 50 Red Cherry.webp"
+    },
+    {
+        "id":  454,
+        "name":  "Facefact, Collagen Overnight Lip Mask",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact, Collagen Overnight Lip Mask.webp"
+    },
+    {
+        "id":  455,
+        "name":  "Facefact, Hyaluronic Overnight Lip Mask",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact, Hyaluronic Overnight Lip Mask.webp"
+    },
+    {
+        "id":  456,
+        "name":  "Facefact, Lip Butter SPF 50 Red Cherry",
+        "brand":  "Facefacts",
+        "price":  3000,
+        "image":  "images/Facefact, Lip Butter SPF 50 Red Cherry.webp"
+    },
+    {
+        "id":  457,
+        "name":  "Scủủp Peach Iced Tea SPF 30 Shimmer Body Stick",
+        "brand":  "Facefacts",
+        "price":  5000,
+        "image":  "images/Scủủp Peach Iced Tea SPF 30 Shimmer Body Stick.webp",
+        "outOfStock": false
+    },
+    {
+        "id":  458,
+        "name":  "Shimmer Gloss Wand - Champagne Sparkle",
+        "brand":  "Facefacts",
+        "price":  2500,
+        "image":  "images/Shimmer Gloss Wand - Champagne Sparkle.webp",
+        "outOfStock": false
+    },
+    {
+        "id":  459,
+        "name":  "Shimmer Gloss Wand - Twilight Berry",
+        "brand":  "Facefacts",
+        "price":  2500,
+        "image":  "images/Shimmer Gloss Wand - Twilight Berry.webp",
+        "outOfStock": false
     }
+    
     
 
 ].filter(function (product) {
