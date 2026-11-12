@@ -183,8 +183,15 @@
         <p id="address-error" class="field-error" role="alert" hidden></p>
       </section>
 
+      <section id="phone-section" class="cart-section checkout-step" aria-labelledby="phone-step-title" hidden>
+        <h4 id="phone-step-title" class="cart-section-title"><span class="step-number">4</span> Enter Your Phone Number</h4>
+        <label class="sr-only" for="delivery-phone">Enter your phone number</label>
+        <input id="delivery-phone" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="phone-error" placeholder="Enter the phone number for your order" required />
+        <p id="phone-error" class="field-error" role="alert" hidden></p>
+      </section>
+
       <section class="cart-section checkout-step" aria-labelledby="summary-step-title">
-        <h4 id="summary-step-title" class="cart-section-title"><span id="summary-step-number" class="step-number">4</span> Order Summary</h4>
+        <h4 id="summary-step-title" class="cart-section-title"><span id="summary-step-number" class="step-number">5</span> Order Summary</h4>
         <div class="summary-row"><span>Product Subtotal</span><span id="summary-subtotal">&ndash;</span></div>
         <div class="summary-row"><span>Delivery Location</span><span id="summary-location">Not selected</span></div>
         <div class="summary-row"><span>Delivery Fee</span><span id="summary-delivery">&ndash;</span></div>

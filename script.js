@@ -1154,10 +1154,13 @@ const el = {
   deliverySection: document.getElementById("delivery-section"),
   deliverySelect: document.getElementById("delivery-select"),
   deliveryError: document.getElementById("delivery-error"),
+  phoneSection: document.getElementById("phone-section"),
   addressSection: document.getElementById("address-section"),
   summaryStepNumber: document.getElementById("summary-step-number"),
   address: document.getElementById("delivery-address"),
   addressError: document.getElementById("address-error"),
+  phone: document.getElementById("delivery-phone"),
+  phoneError: document.getElementById("phone-error"),
   summarySubtotal: document.getElementById("summary-subtotal"),
   summaryLocation: document.getElementById("summary-location"),
   summaryDelivery: document.getElementById("summary-delivery"),
@@ -1457,7 +1460,8 @@ function syncAddressVisibility() {
   if (!el.addressSection) return;
   const showAddress = Boolean(state.deliveryLocation) && cartArray().length > 0;
   el.addressSection.hidden = !showAddress;
-  if (el.summaryStepNumber) el.summaryStepNumber.textContent = showAddress ? "4" : "3";
+  if (el.phoneSection) el.phoneSection.hidden = !showAddress;
+  if (el.summaryStepNumber) el.summaryStepNumber.textContent = showAddress ? "5" : "3";
 }
 function renderCart() {
   const items = cartArray();
@@ -1556,6 +1560,12 @@ function handleCheckout() {
     return;
   }
   hideFieldError(el.addressError);
+  if (!el.phone || !el.phone.value.trim()) {
+    showFieldError(el.phoneError, "Please enter your phone number.");
+    if (el.phone) el.phone.focus();
+    return;
+  }
+  hideFieldError(el.phoneError);
   openPaymentDialog();
 }
 function openPaymentDialog() {
@@ -1578,10 +1588,12 @@ function buildReceiptMessage() {
   const total = subtotal + fee;
   const location = state.deliveryLocation ? state.deliveryLocation.name : "Not provided";
   const address = el.address && el.address.value.trim() ? el.address.value.trim() : "Not provided";
+  const phone = el.phone && el.phone.value.trim() ? el.phone.value.trim() : "Not provided";
   const lines = [
     "FACEFACTS NIGERIA — NEW ORDER",
     "",
     "Customer Order Details",
+    "Customer Phone: " + phone,
     "",
     "Products Ordered:"
   ];
@@ -1729,6 +1741,11 @@ if (el.deliverySelect) {
 if (el.address) {
   el.address.addEventListener("input", function () {
     if (el.address.value.trim()) hideFieldError(el.addressError);
+  });
+}
+if (el.phone) {
+  el.phone.addEventListener("input", function () {
+    if (el.phone.value.trim()) hideFieldError(el.phoneError);
   });
 }
 if (el.paymentClose) {

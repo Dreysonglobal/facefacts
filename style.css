@@ -1108,7 +1108,8 @@ body.cart-open .floating-call {
   box-shadow: 0 3px 12px rgba(35, 67, 91, 0.04);
 }
 
-#delivery-address:focus {
+#delivery-address:focus,
+#delivery-phone:focus {
   outline: 2px solid rgba(82, 127, 159, 0.35);
   border-color: var(--primary);
 }
