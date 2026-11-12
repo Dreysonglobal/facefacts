@@ -5,6 +5,50 @@ const STORE = {
   whatsapp: "2348142526229",
   email: "contact@facefactsnigeria.com.ng"
 };
+const ORDER_WHATSAPP = "2348142526229";
+const BANK_DETAILS = {
+  bank: "Fidelity Bank",
+  accountNumber: "5600042666",
+  accountName: "Acavien Nig Ltd"
+};
+const DELIVERY_LOCATIONS = [
+  { name: "Egbeda", fee: 4000 },
+  { name: "Iyana Ipaja", fee: 4500 },
+  { name: "Ipaja", fee: 4500 },
+  { name: "Abule Egba", fee: 5000 },
+  { name: "Ayobo", fee: 4000 },
+  { name: "Igando", fee: 3500 },
+  { name: "Ikotun", fee: 4000 },
+  { name: "Ijegun", fee: 4000 },
+  { name: "Ejigbo", fee: 4000 },
+  { name: "Command", fee: 4500 },
+  { name: "Surulere", fee: 4500 },
+  { name: "Yaba", fee: 4500 },
+  { name: "Bariga", fee: 4500 },
+  { name: "Shomolu", fee: 4500 },
+  { name: "Oshodi", fee: 4500 },
+  { name: "Isolo", fee: 4500 },
+  { name: "Ikeja", fee: 4500 },
+  { name: "Ogba", fee: 4500 },
+  { name: "Maryland", fee: 4500 },
+  { name: "Ojo", fee: 3500 },
+  { name: "Festac", fee: 4000 },
+  { name: "Ago Palace", fee: 4000 },
+  { name: "Ilasamaja", fee: 4000 },
+  { name: "Ketu", fee: 4500 },
+  { name: "Ikorodu", fee: 8000 },
+  { name: "Lagos Island", fee: 5500 },
+  { name: "Lekki Phase 1", fee: 5500 },
+  { name: "Lekki Phase 2", fee: 6500 },
+  { name: "Ajah", fee: 6500 },
+  { name: "Sangotedo", fee: 7000 },
+  { name: "Awoyaya", fee: 10000 },
+  { name: "Lakowe", fee: 11000 },
+  { name: "Ibeju-Lekki", fee: 14000 }
+];
+const SORTED_DELIVERY_LOCATIONS = DELIVERY_LOCATIONS.slice().sort(function (a, b) {
+  return a.name.localeCompare(b.name);
+});
 const products =[
     {
         "id":  1,
@@ -55,7 +99,8 @@ const products =[
         "name":  "Facefacts snail mucin cleanser",
         "brand":  "Facefacts",
         "price":  6500,
-        "image":  "images/Face facts snail mucin cleanser.jpg"
+        "image":  "images/Face facts snail mucin cleanser.jpg",
+        "outOfStock": true
     },
     {
         "id":  8,
@@ -127,7 +172,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  6500,
         "image":  "images/PDRN Elasticity Support Capsule Cream.webp",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id":  20,
@@ -135,7 +180,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  6500,
         "image":  "images/PDRN Sculpting Contour Serum.webp",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id":  21,
@@ -143,7 +188,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  6500,
         "image":  "images/PDRN Smoothing Eye Serum Shot.webp",
-        "outOfStock": false
+        "outOfStock": true
     },
     
     {
@@ -179,7 +224,8 @@ const products =[
         "name":  "Facefacts, step 02 superberry radiance serum",
         "brand":  "Facefacts",
         "price":  3000,
-        "image":  "images/Facefacts, step 02 superberry radiance serum.webp"
+        "image":  "images/Facefacts, step 02 superberry radiance serum.webp",
+        "outOfStock": true
     },
     {
         "id":  49,
@@ -228,14 +274,16 @@ const products =[
         "name":  "Facefacts, hyaluronic face cream",
         "brand":  "Facefacts",
         "price":  3000,
-        "image":  "images/Facefacts, hyaluronic face cream.webp"
+        "image":  "images/Facefacts, hyaluronic face cream.webp",
+        "outOfStock": true
     },
     {
         "id":  56,
         "name":  "Facefacts, collagen day cream with q10",
         "brand":  "Facefacts",
         "price":  3000,
-        "image":  "images/Facefacts, collagen day cream with q10.webp"
+        "image":  "images/Facefacts, collagen day cream with q10.webp",
+        "outOfStock": true
     },
     {
         "id":  57,
@@ -249,7 +297,8 @@ const products =[
         "name":  "Facefacts, step 04 hyaluronic hydra gel cream",
         "brand":  "Facefacts",
         "price":  3000,
-        "image":  "images/Facefacts, step 04 hyaluronic hydra gel cream.webp"
+        "image":  "images/Facefacts, step 04 hyaluronic hydra gel cream.webp",
+        "outOfStock": true
     },
     {
         "id":  59,
@@ -1080,6 +1129,9 @@ const state = {
   currentPage: 1,
   pageSize: 30,
   cart: new Map(),
+  deliveryLocation: null,
+  paymentConfirmed: false,
+  copyFeedbackTimer: null,
   cartToastTimer: null,
   heroIndex: 0,
   heroTimer: null
@@ -1098,6 +1150,25 @@ const el = {
   cartCount: document.getElementById("cart-count"),
   checkout: document.getElementById("checkout-btn"),
   clearCart: document.getElementById("clear-cart"),
+  cartBody: document.getElementById("cart-body"),
+  deliverySection: document.getElementById("delivery-section"),
+  deliverySelect: document.getElementById("delivery-select"),
+  deliveryError: document.getElementById("delivery-error"),
+  addressSection: document.getElementById("address-section"),
+  summaryStepNumber: document.getElementById("summary-step-number"),
+  address: document.getElementById("delivery-address"),
+  addressError: document.getElementById("address-error"),
+  summarySubtotal: document.getElementById("summary-subtotal"),
+  summaryLocation: document.getElementById("summary-location"),
+  summaryDelivery: document.getElementById("summary-delivery"),
+  summaryTotal: document.getElementById("summary-total"),
+  paymentDialog: document.getElementById("payment-dialog"),
+  paymentClose: document.getElementById("payment-close"),
+  paymentAmount: document.getElementById("payment-amount"),
+  paidBtn: document.getElementById("paid-btn"),
+  receiptStep: document.getElementById("receipt-step"),
+  receiptBtn: document.getElementById("receipt-btn"),
+  copyFeedback: document.getElementById("copy-feedback"),
   heroImage: document.getElementById("hero-image"),
   heroTitle: document.getElementById("hero-title"),
   heroCaption: document.getElementById("hero-caption"),
@@ -1121,14 +1192,7 @@ const verification = {
   form: document.getElementById("verify-form")
 };
 function formatNaira(value) {
-  return "N" + Number(value || 0).toLocaleString("en-NG");
-}
-function safeImageUrl(relativePath) {
-  try {
-    return new URL(encodeURI(relativePath), window.location.href).href;
-  } catch {
-    return relativePath;
-  }
+  return "₦" + Number(value || 0).toLocaleString("en-NG");
 }
 function showCartToast(message) {
   if (!el.cartToast) return;
@@ -1358,39 +1422,77 @@ function buildCategoryOptions() {
 function cartArray() {
   return Array.from(state.cart.values());
 }
-function updateCartCounters() {
+function cartSubtotal() {
+  return cartArray().reduce(function (n, i) { return n + (i.price * i.qty); }, 0);
+}
+function selectedDeliveryFee() {
+  return state.deliveryLocation ? state.deliveryLocation.fee : 0;
+}
+function cartGrandTotal() {
+  return cartSubtotal() + selectedDeliveryFee();
+}
+function updateCartTotals() {
   const items = cartArray();
   const count = items.reduce(function (n, i) { return n + i.qty; }, 0);
-  const total = items.reduce(function (n, i) { return n + (i.price * i.qty); }, 0);
-  el.cartCount.textContent = String(count);
-  el.cartTotal.textContent = formatNaira(total);
+  const subtotal = cartSubtotal();
+  const fee = items.length ? selectedDeliveryFee() : 0;
+  const total = subtotal + fee;
+  if (el.cartCount) el.cartCount.textContent = String(count);
+  if (el.cartTotal) el.cartTotal.textContent = formatNaira(total);
+  if (el.summarySubtotal) el.summarySubtotal.textContent = formatNaira(subtotal);
+  if (el.summaryLocation) el.summaryLocation.textContent = state.deliveryLocation ? state.deliveryLocation.name : "Not selected";
+  if (el.summaryDelivery) el.summaryDelivery.textContent = state.deliveryLocation ? formatNaira(fee) : "—";
+  if (el.summaryTotal) el.summaryTotal.textContent = formatNaira(total);
+  if (el.paymentAmount) el.paymentAmount.textContent = formatNaira(total);
+}
+function buildDeliveryOptions() {
+  if (!el.deliverySelect) return;
+  el.deliverySelect.innerHTML = '<option value="" disabled>Choose your delivery area</option>' +
+    SORTED_DELIVERY_LOCATIONS.map(function (location) {
+      return '<option value="' + location.name + '">' + location.name + " — " + formatNaira(location.fee) + "</option>";
+    }).join("");
+  el.deliverySelect.selectedIndex = 0;
+}
+function syncAddressVisibility() {
+  if (!el.addressSection) return;
+  const showAddress = Boolean(state.deliveryLocation) && cartArray().length > 0;
+  el.addressSection.hidden = !showAddress;
+  if (el.summaryStepNumber) el.summaryStepNumber.textContent = showAddress ? "4" : "3";
 }
 function renderCart() {
   const items = cartArray();
+  const isEmpty = items.length === 0;
   if (!items.length) {
-    el.cartItems.innerHTML = "<p>Your cart is empty.</p>";
-    updateCartCounters();
-    return;
+    el.cartItems.innerHTML = "<p class=\"cart-empty\">Your cart is empty. Add products to start your order.</p>";
+  } else {
+    el.cartItems.innerHTML = items.map(function (item) {
+      return "<div class=\"cart-item\">" +
+        "<img src=\"" + encodeURI(item.image) + "\" alt=\"" + item.name + "\" />" +
+        "<div class=\"cart-item-info\">" +
+        "<p class=\"title\">" + item.name + "</p>" +
+        "<p class=\"meta\">Unit price: " + formatNaira(item.price) + "</p>" +
+        "<div class=\"qty-wrap\">" +
+        "<button class=\"qty-btn\" type=\"button\" data-action=\"dec\" data-id=\"" + item.id + "\" aria-label=\"Decrease quantity\">-</button>" +
+        "<span class=\"qty-value\">" + item.qty + "</span>" +
+        "<button class=\"qty-btn\" type=\"button\" data-action=\"inc\" data-id=\"" + item.id + "\" aria-label=\"Increase quantity\">+</button>" +
+        "</div>" +
+        "</div>" +
+        "<div class=\"cart-item-side\">" +
+        "<p class=\"price\">" + formatNaira(item.price * item.qty) + "</p>" +
+        "<button class=\"cart-remove\" type=\"button\" data-action=\"remove\" data-id=\"" + item.id + "\">Remove</button>" +
+        "</div>" +
+        "</div>";
+    }).join("");
   }
-  el.cartItems.innerHTML = items.map(function (item) {
-    return "<div class=\"cart-item\">" +
-      "<img src=\"" + encodeURI(item.image) + "\" alt=\"" + item.name + "\" />" +
-      "<div>" +
-      "<p class=\"title\">" + item.name + "</p>" +
-      "<p class=\"meta\">" + formatNaira(item.price) + " each</p>" +
-      "<div class=\"qty-wrap\">" +
-      "<button class=\"qty-btn\" data-action=\"dec\" data-id=\"" + item.id + "\">-</button>" +
-      "<span>" + item.qty + "</span>" +
-      "<button class=\"qty-btn\" data-action=\"inc\" data-id=\"" + item.id + "\">+</button>" +
-      "</div>" +
-      "</div>" +
-      "<div>" +
-      "<p class=\"price\">" + formatNaira(item.price * item.qty) + "</p>" +
-      "<button class=\"add-btn\" data-action=\"remove\" data-id=\"" + item.id + "\">Remove</button>" +
-      "</div>" +
-      "</div>";
-  }).join("");
-  updateCartCounters();
+  if (el.cartBody) el.cartBody.classList.toggle("is-empty", isEmpty);
+  const steps = document.querySelectorAll(".checkout-step");
+  for (let i = 0; i < steps.length; i += 1) {
+    steps[i].hidden = isEmpty;
+  }
+  if (el.checkout) el.checkout.disabled = isEmpty;
+  if (el.clearCart) el.clearCart.disabled = isEmpty;
+  syncAddressVisibility();
+  updateCartTotals();
 }
 function addToCart(id) {
   const product = products.find(function (p) { return p.id === id; });
@@ -1418,36 +1520,141 @@ function changeQty(id, action) {
 function openCart() {
   el.cartPanel.classList.add("open");
   el.cartPanel.setAttribute("aria-hidden", "false");
+  document.body.classList.add("cart-open");
 }
 function closeCart() {
   el.cartPanel.classList.remove("open");
   el.cartPanel.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("cart-open");
 }
-function checkoutOnWhatsApp() {
-  const items = cartArray();
-  if (!items.length) {
-    alert("Your cart is empty.");
+function showFieldError(node, message) {
+  if (!node) return;
+  node.textContent = message;
+  node.hidden = false;
+}
+function hideFieldError(node) {
+  if (!node) return;
+  node.textContent = "";
+  node.hidden = true;
+}
+function handleCheckout() {
+  if (!cartArray().length) {
+    showCartToast("Your cart is empty. Add products to continue.");
     return;
   }
-  const total = items.reduce(function (n, i) { return n + (i.price * i.qty); }, 0);
+  if (!state.deliveryLocation) {
+    showFieldError(el.deliveryError, "Please select your delivery location.");
+    if (el.deliverySelect) el.deliverySelect.focus();
+    if (el.deliverySection) el.deliverySection.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+  hideFieldError(el.deliveryError);
+  syncAddressVisibility();
+  if (!el.address || !el.address.value.trim()) {
+    showFieldError(el.addressError, "Please enter your exact delivery address.");
+    if (el.address) el.address.focus();
+    return;
+  }
+  hideFieldError(el.addressError);
+  openPaymentDialog();
+}
+function openPaymentDialog() {
+  if (!el.paymentDialog) return;
+  state.paymentConfirmed = false;
+  if (el.paidBtn) el.paidBtn.hidden = false;
+  if (el.receiptStep) el.receiptStep.hidden = true;
+  if (el.receiptBtn) el.receiptBtn.setAttribute("href", "#");
+  if (el.copyFeedback) {
+    el.copyFeedback.textContent = "";
+    el.copyFeedback.classList.remove("is-error");
+  }
+  updateCartTotals();
+  el.paymentDialog.showModal();
+}
+function buildReceiptMessage() {
+  const items = cartArray();
+  const subtotal = cartSubtotal();
+  const fee = selectedDeliveryFee();
+  const total = subtotal + fee;
+  const location = state.deliveryLocation ? state.deliveryLocation.name : "Not provided";
+  const address = el.address && el.address.value.trim() ? el.address.value.trim() : "Not provided";
   const lines = [
-    "Hello " + STORE.name + ", I want to place an order.",
+    "FACEFACTS NIGERIA — NEW ORDER",
     "",
-    "Selected products:"
+    "Customer Order Details",
+    "",
+    "Products Ordered:"
   ];
   items.forEach(function (item, index) {
-    lines.push(String(index + 1) + ". " + item.name);
-    lines.push("Qty: " + item.qty);
-    lines.push("Unit Price: " + formatNaira(item.price));
-    lines.push("Subtotal: " + formatNaira(item.price * item.qty));
-    lines.push("Picture: " + safeImageUrl(item.image));
-    lines.push("");
+    lines.push(String(index + 1) + ". " + item.name + " × " + item.qty + " = " + formatNaira(item.price * item.qty));
   });
-  lines.push("Total: " + formatNaira(total));
-  lines.push("Store Address: " + STORE.address);
-  const text = encodeURIComponent(lines.join("\n"));
-  const url = "https://wa.me/" + STORE.whatsapp + "?text=" + text;
-  window.open(url, "_blank");
+  lines.push("");
+  lines.push("Product Subtotal: " + formatNaira(subtotal));
+  lines.push("");
+  lines.push("Delivery Information:");
+  lines.push("Selected Location: " + location);
+  lines.push("Exact Delivery Address: " + address);
+  lines.push("");
+  lines.push("Delivery Fee: " + formatNaira(fee));
+  lines.push("");
+  lines.push("TOTAL AMOUNT PAID: " + formatNaira(total));
+  lines.push("");
+  lines.push("PAYMENT DETAILS:");
+  lines.push("Bank: " + BANK_DETAILS.bank);
+  lines.push("Account Number: " + BANK_DETAILS.accountNumber);
+  lines.push("Account Name: " + BANK_DETAILS.accountName);
+  lines.push("");
+  lines.push("Payment Status: Customer indicates payment has been made.");
+  lines.push("");
+  lines.push("Please find my payment receipt attached.");
+  lines.push("");
+  lines.push("Thank you.");
+  return lines.join("\n");
+}
+function buildReceiptUrl() {
+  return "https://wa.me/" + ORDER_WHATSAPP + "?text=" + encodeURIComponent(buildReceiptMessage());
+}
+function showCopyFeedback(message, isError) {
+  if (!el.copyFeedback) return;
+  el.copyFeedback.textContent = message;
+  el.copyFeedback.classList.toggle("is-error", Boolean(isError));
+  if (state.copyFeedbackTimer) clearTimeout(state.copyFeedbackTimer);
+  state.copyFeedbackTimer = setTimeout(function () {
+    if (el.copyFeedback) el.copyFeedback.textContent = "";
+  }, 4000);
+}
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise(function (resolve, reject) {
+    const field = document.createElement("textarea");
+    field.value = text;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.opacity = "0";
+    document.body.appendChild(field);
+    field.select();
+    let ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch (err) {
+      ok = false;
+    }
+    document.body.removeChild(field);
+    if (ok) resolve();
+    else reject(new Error("copy failed"));
+  });
+}
+function handleCopyClick(button) {
+  const target = document.getElementById(button.dataset.copyTarget);
+  if (!target) return;
+  const value = target.textContent.trim();
+  copyToClipboard(value).then(function () {
+    showCopyFeedback(button.dataset.copyLabel + " copied.", false);
+  }).catch(function () {
+    showCopyFeedback("Could not copy automatically. Please copy " + value + " manually.", true);
+  });
 }
 el.search.addEventListener("input", function (e) {
   state.search = e.target.value;
@@ -1503,7 +1710,60 @@ if (el.nextPage) {
 }
 el.cartToggle.addEventListener("click", openCart);
 el.cartClose.addEventListener("click", closeCart);
-el.checkout.addEventListener("click", checkoutOnWhatsApp);
+el.checkout.addEventListener("click", handleCheckout);
+if (el.deliverySelect) {
+  el.deliverySelect.addEventListener("change", function () {
+    const location = DELIVERY_LOCATIONS.find(function (item) {
+      return item.name === el.deliverySelect.value;
+    });
+    if (!location) {
+      el.deliverySelect.value = state.deliveryLocation ? state.deliveryLocation.name : "";
+      return;
+    }
+    state.deliveryLocation = { name: location.name, fee: location.fee };
+    hideFieldError(el.deliveryError);
+    syncAddressVisibility();
+    updateCartTotals();
+  });
+}
+if (el.address) {
+  el.address.addEventListener("input", function () {
+    if (el.address.value.trim()) hideFieldError(el.addressError);
+  });
+}
+if (el.paymentClose) {
+  el.paymentClose.addEventListener("click", function () {
+    el.paymentDialog.close();
+  });
+}
+if (el.paymentDialog) {
+  el.paymentDialog.addEventListener("click", function (e) {
+    if (e.target === el.paymentDialog) el.paymentDialog.close();
+  });
+  el.paymentDialog.addEventListener("close", function () {
+    if (el.copyFeedback) el.copyFeedback.textContent = "";
+  });
+  const copyButtons = el.paymentDialog.querySelectorAll("button[data-copy-target]");
+  for (let i = 0; i < copyButtons.length; i += 1) {
+    copyButtons[i].addEventListener("click", function (e) {
+      handleCopyClick(e.currentTarget);
+    });
+  }
+}
+if (el.paidBtn) {
+  el.paidBtn.addEventListener("click", function () {
+    state.paymentConfirmed = true;
+    el.paidBtn.hidden = true;
+    if (el.receiptBtn) el.receiptBtn.setAttribute("href", buildReceiptUrl());
+    if (el.receiptStep) el.receiptStep.hidden = false;
+  });
+}
+if (el.receiptBtn) {
+  el.receiptBtn.addEventListener("click", function (e) {
+    e.currentTarget.setAttribute("href", buildReceiptUrl());
+    if (!state.paymentConfirmed) e.preventDefault();
+  });
+}
 verification.toggle.addEventListener("click", function () {
   verification.dialog.showModal();
 });
@@ -1529,10 +1789,12 @@ verification.form.addEventListener("submit", function (e) {
 });
 el.clearCart.addEventListener("click", function () {
   state.cart.clear();
+  state.paymentConfirmed = false;
   renderCart();
 });
 buildCategoryOptions();
 setupHeroSlider();
 renderProducts();
+buildDeliveryOptions();
 renderCart();
 if (window.location.hash === "#verify-toggle") verification.dialog.showModal();
