@@ -56,7 +56,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  3500,
         "image":  "images/facefact.webp",
-        "outOfStock": false
+        "outOfStock": true
 
     },
     {
@@ -92,7 +92,8 @@ const products =[
         "name":  "Facefacts lip treatment",
         "brand":  "Facefacts",
         "price":  2500,
-        "image":  "images/Face facts lip treatment.jpg"
+        "image":  "images/Face facts lip treatment.jpg",
+        "outOfStock": true
     },
     {
         "id":  7,
@@ -525,7 +526,8 @@ const products =[
         "name":  "Facefacts, cleansing cucumber mud mask",
         "brand":  "Facefacts",
         "price":  1300,
-        "image":  "images/Facefacts, cleansing cucumber mud mask.webp"
+        "image":  "images/Facefacts, cleansing cucumber mud mask.webp",
+        "outOfStock": true
     },
     {
         "id":  91,
@@ -540,7 +542,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  6500,
         "image":  "images/PDRN Revitalising Moisturiser.webp",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id":  93,
@@ -592,28 +594,32 @@ const products =[
         "name":  "Facefacts, blemish patches hydrocolloid material",
         "brand":  "Facefacts",
         "price":  2000,
-        "image":  "images/Facefacts, blemish patches hydrocolloid material.webp"
+        "image":  "images/Facefacts, blemish patches hydrocolloid material.webp",
+        "outOfStock": true
     },
     {
         "id":  113,
         "name":  "Facefacts, blemish patches joy pixels",
         "brand":  "Facefacts",
         "price":  2000,
-        "image":  "images/114- Facefacts, blemish patches joy pixels 2000naira.jpg"
+        "image":  "images/114- Facefacts, blemish patches joy pixels 2000naira.jpg",
+        "outOfStock": true
     },
     {
         "id":  114,
         "name":  "Facefacts, blemish patches strawberries",
         "brand":  "Facefacts",
         "price":  2000,
-        "image":  "images/115- Facefacts, blemish patches strawberries 2000naira.jpg"
+        "image":  "images/115- Facefacts, blemish patches strawberries 2000naira.jpg",
+        "outOfStock": true
     },
     {
         "id":  115,
         "name":  "Facefacts, blemish patches glow in the dark",
         "brand":  "Facefacts",
         "price":  2000,
-        "image":  "images/116- Facefacts, blemish patches glow in the dark 2000naira.jpg"
+        "image":  "images/116- Facefacts, blemish patches glow in the dark 2000naira.jpg",
+        "outOfStock": true
     },
     
     {
@@ -929,7 +935,8 @@ const products =[
         "name":  "Facefacts, ceramide oil control moisturizing gel cream",
         "brand":  "Facefacts",
         "price":  3000,
-        "image":  "images/Facefacts, ceramide oil control moisturizing gel cream.webp"
+        "image":  "images/Facefacts, ceramide oil control moisturizing gel cream.webp",
+        "outOfStock": true
     },
     {
         "id":  433,
@@ -950,7 +957,8 @@ const products =[
         "name":  "Facefacts, ceramide blemish and defend gift set",
         "brand":  "Facefacts",
         "price":  21000,
-        "image":  "images/Facefacts, ceramide blemish and defend gift set.jpg"
+        "image":  "images/Facefacts, ceramide blemish and defend gift set.jpg",
+        "outOfStock": true
     },
     {
         "id":  436,
@@ -1006,7 +1014,8 @@ const products =[
         "name":  "Facefact, ceramide oil control (Gift set)",
         "brand":  "Facefacts",
         "price":  12000,
-        "image":  "images/Facefact ceramide oil control Gift set.webp"
+        "image":  "images/Facefact ceramide oil control Gift set.webp",
+        "outOfStock": true
     },
     {
         "id":  445,
@@ -1027,14 +1036,16 @@ const products =[
         "name":  "Facefact, matcha glow azelaic blemish serum",
         "brand":  "Facefacts",
         "price":  5000,
-        "image":  "images/Facefact matcha glow azelaic blemish serum.webp"
+        "image":  "images/Facefact matcha glow azelaic blemish serum.webp",
+        "outOfStock": true
     },
     {
         "id":  448,
         "name":  "Facefact, matcha glow peptide water cream",
         "brand":  "Facefacts",
         "price":  5000,
-        "image":  "images/Facefact matcha glow peptide water cream.webp"
+        "image":  "images/Facefact matcha glow peptide water cream.webp",
+        "outOfStock": true
     },
     {
         "id":  449,
