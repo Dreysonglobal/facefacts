@@ -266,7 +266,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  3000,
         "image":  "images/Facefacts, step 02 superberry radiance serum.webp",
-        "outOfStock": true
+        "outOfStock": false
     },
     {
         "id":  49,
@@ -974,9 +974,9 @@ const products =[
         "id":  432,
         "name":  "Facefacts, ceramide oil control moisturizing gel cream",
         "brand":  "Facefacts",
-        "price":  3000,
+        "price":  3500,
         "image":  "images/Facefacts, ceramide oil control moisturizing gel cream.webp",
-        "outOfStock": true
+        "outOfStock": false
     },
     {
         "id":  433,
