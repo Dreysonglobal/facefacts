@@ -1166,6 +1166,13 @@ const products =[
         "price":  2500,
         "image":  "images/Shimmer Gloss Wand - Twilight Berry.webp",
         "outOfStock": false
+    },
+    {
+        "id":  460,
+        "name":  "Facefacts, ceramide hydrating gentle cleanser 400ml",
+        "brand":  "Facefacts",
+        "price":  6500,
+        "image":  "images/127- Facefacts, ceramide hydrating gentle cleanser 4500naira.jpg"
     }
     
     
