@@ -1114,6 +1114,59 @@ body.cart-open .floating-call {
   border-color: var(--primary);
 }
 
+.checkout-label {
+  display: block;
+  margin: 0.55rem 0 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.checkout-label .req {
+  color: #b3402d;
+}
+
+.checkout-input,
+.checkout-textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  box-shadow: 0 3px 12px rgba(35, 67, 91, 0.04);
+}
+
+.checkout-textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+
+.checkout-input:focus,
+.checkout-textarea:focus {
+  outline: 2px solid rgba(82, 127, 159, 0.35);
+  outline-offset: 1px;
+  border-color: var(--primary);
+}
+
+.nonlagos-note {
+  margin: 0.75rem 0 0;
+  padding: 0.7rem 0.8rem;
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+  background: rgba(82, 127, 159, 0.08);
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.nonlagos-note[hidden] {
+  display: none;
+}
+
 .field-error {
   margin: 0;
   color: #b3402d;

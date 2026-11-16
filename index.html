@@ -163,11 +163,24 @@
         <button id="clear-cart" class="btn btn-clear btn-block" type="button">Clear Cart</button>
       </section>
 
-      <section id="delivery-section" class="cart-section checkout-step" aria-labelledby="delivery-step-title">
-        <h4 id="delivery-step-title" class="cart-section-title"><span class="step-number">2</span> Select Your Delivery Location</h4>
-        <p class="cart-hint">Choose the area closest to you. The delivery fee is added to your total automatically.</p>
+      <section id="state-section" class="cart-section checkout-step" aria-labelledby="state-step-title">
+        <h4 id="state-step-title" class="cart-section-title"><span class="step-number">2</span> Select Your State</h4>
+        <p class="cart-hint">Choose the state you want your order delivered to.</p>
         <div class="select-wrap">
-          <label class="sr-only" for="delivery-select">Choose your delivery area</label>
+          <label class="sr-only" for="state-select">Choose your state</label>
+          <select id="state-select" class="delivery-select" aria-describedby="state-error" required>
+            <option value="" disabled selected>Choose your state</option>
+          </select>
+          <span class="select-arrow" aria-hidden="true"></span>
+        </div>
+        <p id="state-error" class="field-error" role="alert" hidden></p>
+      </section>
+
+      <section id="delivery-section" class="cart-section checkout-step" aria-labelledby="delivery-step-title" hidden>
+        <h4 id="delivery-step-title" class="cart-section-title"><span class="step-number">3</span> Select Your Lagos Delivery Location</h4>
+        <p class="cart-hint">Choose the area closest to you in Lagos. The delivery fee is added to your total automatically.</p>
+        <div class="select-wrap">
+          <label class="sr-only" for="delivery-select">Choose your Lagos delivery area</label>
           <select id="delivery-select" class="delivery-select" aria-describedby="delivery-error" required>
             <option value="" disabled selected>Choose your delivery area</option>
           </select>
@@ -177,31 +190,62 @@
       </section>
 
       <section id="address-section" class="cart-section checkout-step" aria-labelledby="address-step-title" hidden>
-        <h4 id="address-step-title" class="cart-section-title"><span class="step-number">3</span> Enter Your Exact Delivery Address</h4>
+        <h4 id="address-step-title" class="cart-section-title"><span class="step-number">4</span> Enter Your Exact Delivery Address</h4>
         <label class="sr-only" for="delivery-address">Enter your exact delivery address</label>
-        <textarea id="delivery-address" rows="3" autocomplete="street-address" placeholder="Enter your house number, street name, estate or landmark."></textarea>
+        <textarea id="delivery-address" rows="3" autocomplete="street-address" placeholder="Enter your house number, street name, estate or nearby landmark."></textarea>
         <p id="address-error" class="field-error" role="alert" hidden></p>
       </section>
 
+      <section id="nonlagos-section" class="cart-section checkout-step" aria-labelledby="nonlagos-step-title" hidden>
+        <h4 id="nonlagos-step-title" class="cart-section-title"><span class="step-number">4</span> Delivery Details</h4>
+        <p id="nonlagos-state-label" class="cart-hint"></p>
+        <label class="checkout-label" for="nonlagos-city">City or Local Government Area <span class="req" aria-hidden="true">*</span></label>
+        <input id="nonlagos-city" class="checkout-input" type="text" aria-describedby="nonlagos-city-error" placeholder="Enter your city or local government area" />
+        <p id="nonlagos-city-error" class="field-error" role="alert" hidden></p>
+
+        <label class="checkout-label" for="nonlagos-address">Exact Delivery Address <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="nonlagos-address" class="checkout-textarea" rows="3" aria-describedby="nonlagos-address-error" placeholder="Enter your house number, street name, estate or delivery address"></textarea>
+        <p id="nonlagos-address-error" class="field-error" role="alert" hidden></p>
+
+        <label class="checkout-label" for="nonlagos-landmark">Nearby Landmark (optional)</label>
+        <input id="nonlagos-landmark" class="checkout-input" type="text" placeholder="Enter a nearby landmark (optional)" />
+
+        <p class="nonlagos-note">
+          Thank you for shopping with Facefacts Nigeria. Delivery charges for locations outside Lagos will be confirmed
+          by our customer service team on WhatsApp. Please send your order to us and we will provide the delivery cost
+          and payment details.
+        </p>
+      </section>
+
       <section id="phone-section" class="cart-section checkout-step" aria-labelledby="phone-step-title" hidden>
-        <h4 id="phone-step-title" class="cart-section-title"><span class="step-number">4</span> Enter Your Phone Number</h4>
-        <label class="sr-only" for="delivery-phone">Enter your phone number</label>
-        <input id="delivery-phone" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="phone-error" placeholder="Enter the phone number for your order" required />
+        <h4 id="phone-step-title" class="cart-section-title"><span class="step-number">5</span> Enter Your Details</h4>
+        <label class="checkout-label" for="customer-name">Customer name <span class="req" aria-hidden="true">*</span></label>
+        <input id="customer-name" class="checkout-input" type="text" autocomplete="name" aria-describedby="customer-name-error" placeholder="Enter your full name" required />
+        <p id="customer-name-error" class="field-error" role="alert" hidden></p>
+
+        <label class="checkout-label" for="delivery-phone">Customer phone number <span class="req" aria-hidden="true">*</span></label>
+        <input id="delivery-phone" class="checkout-input" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="phone-error" placeholder="Enter the phone number for your order" required />
         <p id="phone-error" class="field-error" role="alert" hidden></p>
       </section>
 
       <section class="cart-section checkout-step" aria-labelledby="summary-step-title">
-        <h4 id="summary-step-title" class="cart-section-title"><span id="summary-step-number" class="step-number">5</span> Order Summary</h4>
+        <h4 id="summary-step-title" class="cart-section-title"><span id="summary-step-number" class="step-number">6</span> Order Summary</h4>
         <div class="summary-row"><span>Product Subtotal</span><span id="summary-subtotal">&ndash;</span></div>
-        <div class="summary-row"><span>Delivery Location</span><span id="summary-location">Not selected</span></div>
-        <div class="summary-row"><span>Delivery Fee</span><span id="summary-delivery">&ndash;</span></div>
-        <div class="summary-row summary-total"><span>Total Amount Payable</span><span id="summary-total">&ndash;</span></div>
+        <div id="summary-lagos" hidden>
+          <div class="summary-row"><span>Delivery Location</span><span id="summary-location">Not selected</span></div>
+          <div class="summary-row"><span>Delivery Fee</span><span id="summary-delivery">&ndash;</span></div>
+          <div class="summary-row summary-total"><span>Total Amount Payable</span><span id="summary-total">&ndash;</span></div>
+        </div>
+        <div id="summary-nonlagos" hidden>
+          <div class="summary-row"><span>Selected State</span><span id="summary-state">Not selected</span></div>
+          <div class="summary-row"><span>Delivery Fee</span><span>To be confirmed on WhatsApp</span></div>
+        </div>
       </section>
     </div>
 
     <div class="cart-foot">
-      <p class="cart-foot-total"><span>Total Amount Payable</span><span id="cart-total">₦0</span></p>
-      <button id="checkout-btn" class="btn btn-checkout btn-block" type="button">MAKE PAYMENT</button>
+      <p class="cart-foot-total"><span id="cart-foot-label">Product Subtotal</span><span id="cart-total">₦0</span></p>
+      <button id="checkout-btn" class="btn btn-checkout btn-block" type="button">SEND ORDER TO WHATSAPP</button>
     </div>
   </aside>
 

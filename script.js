@@ -11,6 +11,46 @@ const BANK_DETAILS = {
   accountNumber: "5600042666",
   accountName: "Acavien Nig Ltd"
 };
+const NIGERIAN_STATES = [
+  "Abia",
+  "Adamawa",
+  "Akwa Ibom",
+  "Anambra",
+  "Bauchi",
+  "Bayelsa",
+  "Benue",
+  "Borno",
+  "Cross River",
+  "Delta",
+  "Ebonyi",
+  "Edo",
+  "Ekiti",
+  "Enugu",
+  "Federal Capital Territory (FCT)",
+  "Gombe",
+  "Imo",
+  "Jigawa",
+  "Kaduna",
+  "Kano",
+  "Katsina",
+  "Kebbi",
+  "Kogi",
+  "Kwara",
+  "Lagos",
+  "Nasarawa",
+  "Niger",
+  "Ogun",
+  "Ondo",
+  "Osun",
+  "Oyo",
+  "Plateau",
+  "Rivers",
+  "Sokoto",
+  "Taraba",
+  "Yobe",
+  "Zamfara"
+];
+const LAGOS_STATE = "Lagos";
 const DELIVERY_LOCATIONS = [
   { name: "Egbeda", fee: 4000 },
   { name: "Iyana Ipaja", fee: 4500 },
@@ -1140,6 +1180,7 @@ const state = {
   currentPage: 1,
   pageSize: 30,
   cart: new Map(),
+  selectedState: "",
   deliveryLocation: null,
   paymentConfirmed: false,
   copyFeedbackTimer: null,
@@ -1162,20 +1203,36 @@ const el = {
   checkout: document.getElementById("checkout-btn"),
   clearCart: document.getElementById("clear-cart"),
   cartBody: document.getElementById("cart-body"),
+  stateSection: document.getElementById("state-section"),
+  stateSelect: document.getElementById("state-select"),
+  stateError: document.getElementById("state-error"),
   deliverySection: document.getElementById("delivery-section"),
   deliverySelect: document.getElementById("delivery-select"),
   deliveryError: document.getElementById("delivery-error"),
+  nonlagosSection: document.getElementById("nonlagos-section"),
+  nonlagosStateLabel: document.getElementById("nonlagos-state-label"),
+  nonlagosCity: document.getElementById("nonlagos-city"),
+  nonlagosCityError: document.getElementById("nonlagos-city-error"),
+  nonlagosAddress: document.getElementById("nonlagos-address"),
+  nonlagosAddressError: document.getElementById("nonlagos-address-error"),
+  nonlagosLandmark: document.getElementById("nonlagos-landmark"),
   phoneSection: document.getElementById("phone-section"),
   addressSection: document.getElementById("address-section"),
   summaryStepNumber: document.getElementById("summary-step-number"),
   address: document.getElementById("delivery-address"),
   addressError: document.getElementById("address-error"),
+  customerName: document.getElementById("customer-name"),
+  customerNameError: document.getElementById("customer-name-error"),
   phone: document.getElementById("delivery-phone"),
   phoneError: document.getElementById("phone-error"),
   summarySubtotal: document.getElementById("summary-subtotal"),
+  summaryLagos: document.getElementById("summary-lagos"),
+  summaryNonLagos: document.getElementById("summary-nonlagos"),
   summaryLocation: document.getElementById("summary-location"),
   summaryDelivery: document.getElementById("summary-delivery"),
+  summaryState: document.getElementById("summary-state"),
   summaryTotal: document.getElementById("summary-total"),
+  cartFootLabel: document.getElementById("cart-foot-label"),
   paymentDialog: document.getElementById("payment-dialog"),
   paymentClose: document.getElementById("payment-close"),
   paymentAmount: document.getElementById("payment-amount"),
@@ -1439,8 +1496,12 @@ function cartArray() {
 function cartSubtotal() {
   return cartArray().reduce(function (n, i) { return n + (i.price * i.qty); }, 0);
 }
+function isLagosSelected() {
+  return state.selectedState === LAGOS_STATE;
+}
 function selectedDeliveryFee() {
-  return state.deliveryLocation ? state.deliveryLocation.fee : 0;
+  if (!isLagosSelected() || !state.deliveryLocation) return 0;
+  return state.deliveryLocation.fee;
 }
 function cartGrandTotal() {
   return cartSubtotal() + selectedDeliveryFee();
@@ -1449,15 +1510,29 @@ function updateCartTotals() {
   const items = cartArray();
   const count = items.reduce(function (n, i) { return n + i.qty; }, 0);
   const subtotal = cartSubtotal();
-  const fee = items.length ? selectedDeliveryFee() : 0;
+  const lagos = isLagosSelected();
+  const fee = lagos && items.length ? selectedDeliveryFee() : 0;
   const total = subtotal + fee;
   if (el.cartCount) el.cartCount.textContent = String(count);
-  if (el.cartTotal) el.cartTotal.textContent = formatNaira(total);
+  if (el.cartTotal) el.cartTotal.textContent = formatNaira(lagos ? total : subtotal);
+  if (el.cartFootLabel) el.cartFootLabel.textContent = lagos ? "Total Amount Payable" : "Product Subtotal";
+  if (el.checkout) el.checkout.textContent = lagos ? "MAKE PAYMENT" : "SEND ORDER TO WHATSAPP";
   if (el.summarySubtotal) el.summarySubtotal.textContent = formatNaira(subtotal);
+  if (el.summaryLagos) el.summaryLagos.hidden = !lagos;
+  if (el.summaryNonLagos) el.summaryNonLagos.hidden = lagos;
   if (el.summaryLocation) el.summaryLocation.textContent = state.deliveryLocation ? state.deliveryLocation.name : "Not selected";
   if (el.summaryDelivery) el.summaryDelivery.textContent = state.deliveryLocation ? formatNaira(fee) : "—";
+  if (el.summaryState) el.summaryState.textContent = state.selectedState || "Not selected";
   if (el.summaryTotal) el.summaryTotal.textContent = formatNaira(total);
   if (el.paymentAmount) el.paymentAmount.textContent = formatNaira(total);
+}
+function buildStateOptions() {
+  if (!el.stateSelect) return;
+  el.stateSelect.innerHTML = '<option value="" disabled selected>Choose your state</option>' +
+    NIGERIAN_STATES.map(function (name) {
+      return '<option value="' + name + '">' + name + "</option>";
+    }).join("");
+  el.stateSelect.selectedIndex = 0;
 }
 function buildDeliveryOptions() {
   if (!el.deliverySelect) return;
@@ -1467,12 +1542,23 @@ function buildDeliveryOptions() {
     }).join("");
   el.deliverySelect.selectedIndex = 0;
 }
-function syncAddressVisibility() {
-  if (!el.addressSection) return;
-  const showAddress = Boolean(state.deliveryLocation) && cartArray().length > 0;
-  el.addressSection.hidden = !showAddress;
-  if (el.phoneSection) el.phoneSection.hidden = !showAddress;
-  if (el.summaryStepNumber) el.summaryStepNumber.textContent = showAddress ? "5" : "3";
+function syncCheckoutSections() {
+  const hasItems = cartArray().length > 0;
+  const hasState = Boolean(state.selectedState);
+  const lagos = isLagosSelected();
+  const showLagosLocation = hasItems && lagos;
+  const showLagosAddress = showLagosLocation && Boolean(state.deliveryLocation);
+  const showNonLagos = hasItems && hasState && !lagos;
+  if (el.deliverySection) el.deliverySection.hidden = !showLagosLocation;
+  if (el.addressSection) el.addressSection.hidden = !showLagosAddress;
+  if (el.nonlagosSection) el.nonlagosSection.hidden = !showNonLagos;
+  if (el.phoneSection) el.phoneSection.hidden = !hasItems;
+  if (el.nonlagosStateLabel) {
+    el.nonlagosStateLabel.textContent = hasState && !lagos
+      ? "Selected State: " + state.selectedState
+      : "";
+  }
+  if (el.summaryStepNumber) el.summaryStepNumber.textContent = "6";
 }
 function renderCart() {
   const items = cartArray();
@@ -1506,7 +1592,7 @@ function renderCart() {
   }
   if (el.checkout) el.checkout.disabled = isEmpty;
   if (el.clearCart) el.clearCart.disabled = isEmpty;
-  syncAddressVisibility();
+  syncCheckoutSections();
   updateCartTotals();
 }
 function addToCart(id) {
@@ -1557,27 +1643,58 @@ function handleCheckout() {
     showCartToast("Your cart is empty. Add products to continue.");
     return;
   }
-  if (!state.deliveryLocation) {
-    showFieldError(el.deliveryError, "Please select your delivery location.");
-    if (el.deliverySelect) el.deliverySelect.focus();
-    if (el.deliverySection) el.deliverySection.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (!state.selectedState) {
+    showFieldError(el.stateError, "Please select your state.");
+    if (el.stateSelect) el.stateSelect.focus();
+    if (el.stateSection) el.stateSection.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
-  hideFieldError(el.deliveryError);
-  syncAddressVisibility();
-  if (!el.address || !el.address.value.trim()) {
-    showFieldError(el.addressError, "Please enter your exact delivery address.");
-    if (el.address) el.address.focus();
+  hideFieldError(el.stateError);
+  if (isLagosSelected()) {
+    if (!state.deliveryLocation) {
+      showFieldError(el.deliveryError, "Please select your Lagos delivery location.");
+      if (el.deliverySelect) el.deliverySelect.focus();
+      if (el.deliverySection) el.deliverySection.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    hideFieldError(el.deliveryError);
+    if (!el.address || !el.address.value.trim()) {
+      showFieldError(el.addressError, "Please enter your exact delivery address.");
+      if (el.address) el.address.focus();
+      return;
+    }
+    hideFieldError(el.addressError);
+  } else {
+    if (!el.nonlagosCity || !el.nonlagosCity.value.trim()) {
+      showFieldError(el.nonlagosCityError, "Please enter your city or local government area.");
+      if (el.nonlagosCity) el.nonlagosCity.focus();
+      return;
+    }
+    hideFieldError(el.nonlagosCityError);
+    if (!el.nonlagosAddress || !el.nonlagosAddress.value.trim()) {
+      showFieldError(el.nonlagosAddressError, "Please enter your exact delivery address.");
+      if (el.nonlagosAddress) el.nonlagosAddress.focus();
+      return;
+    }
+    hideFieldError(el.nonlagosAddressError);
+  }
+  if (!el.customerName || !el.customerName.value.trim()) {
+    showFieldError(el.customerNameError, "Please enter your name.");
+    if (el.customerName) el.customerName.focus();
     return;
   }
-  hideFieldError(el.addressError);
+  hideFieldError(el.customerNameError);
   if (!el.phone || !el.phone.value.trim()) {
     showFieldError(el.phoneError, "Please enter your phone number.");
     if (el.phone) el.phone.focus();
     return;
   }
   hideFieldError(el.phoneError);
-  openPaymentDialog();
+  if (isLagosSelected()) {
+    openPaymentDialog();
+  } else {
+    sendNonLagosOrderToWhatsApp();
+  }
 }
 function openPaymentDialog() {
   if (!el.paymentDialog) return;
@@ -1592,6 +1709,21 @@ function openPaymentDialog() {
   updateCartTotals();
   el.paymentDialog.showModal();
 }
+function customerNameValue() {
+  return el.customerName && el.customerName.value.trim() ? el.customerName.value.trim() : "Not provided";
+}
+function customerPhoneValue() {
+  return el.phone && el.phone.value.trim() ? el.phone.value.trim() : "Not provided";
+}
+function customerDetailsLines() {
+  return [
+    "CUSTOMER DETAILS:",
+    "",
+    "Customer Name: " + customerNameValue(),
+    "",
+    "Customer Phone Number: " + customerPhoneValue()
+  ];
+}
 function buildReceiptMessage() {
   const items = cartArray();
   const subtotal = cartSubtotal();
@@ -1599,27 +1731,24 @@ function buildReceiptMessage() {
   const total = subtotal + fee;
   const location = state.deliveryLocation ? state.deliveryLocation.name : "Not provided";
   const address = el.address && el.address.value.trim() ? el.address.value.trim() : "Not provided";
-  const phone = el.phone && el.phone.value.trim() ? el.phone.value.trim() : "Not provided";
-  const lines = [
-    "FACEFACTS NIGERIA — NEW ORDER",
-    "",
-    "Customer Order Details",
-    "Customer Phone: " + phone,
-    "",
-    "Products Ordered:"
-  ];
+  const lines = ["FACEFACTS NIGERIA — NEW ORDER", ""];
+  customerDetailsLines().forEach(function (line) { lines.push(line); });
+  lines.push("");
+  lines.push("PRODUCTS ORDERED:");
   items.forEach(function (item, index) {
-    lines.push(String(index + 1) + ". " + item.name + " × " + item.qty + " = " + formatNaira(item.price * item.qty));
+    lines.push(String(index + 1) + ". " + item.name + " × " + item.qty);
+    lines.push("   Unit Price: " + formatNaira(item.price));
+    lines.push("   Subtotal: " + formatNaira(item.price * item.qty));
   });
   lines.push("");
-  lines.push("Product Subtotal: " + formatNaira(subtotal));
+  lines.push("PRODUCT SUBTOTAL: " + formatNaira(subtotal));
   lines.push("");
-  lines.push("Delivery Information:");
-  lines.push("Selected Location: " + location);
+  lines.push("DELIVERY INFORMATION:");
+  lines.push("Selected State: " + LAGOS_STATE);
+  lines.push("Delivery Location: " + location);
   lines.push("Exact Delivery Address: " + address);
   lines.push("");
-  lines.push("Delivery Fee: " + formatNaira(fee));
-  lines.push("");
+  lines.push("DELIVERY FEE: " + formatNaira(fee));
   lines.push("TOTAL AMOUNT PAID: " + formatNaira(total));
   lines.push("");
   lines.push("PAYMENT DETAILS:");
@@ -1636,6 +1765,45 @@ function buildReceiptMessage() {
 }
 function buildReceiptUrl() {
   return "https://wa.me/" + ORDER_WHATSAPP + "?text=" + encodeURIComponent(buildReceiptMessage());
+}
+function buildNonLagosMessage() {
+  const items = cartArray();
+  const subtotal = cartSubtotal();
+  const city = el.nonlagosCity && el.nonlagosCity.value.trim() ? el.nonlagosCity.value.trim() : "Not provided";
+  const address = el.nonlagosAddress && el.nonlagosAddress.value.trim() ? el.nonlagosAddress.value.trim() : "Not provided";
+  const landmark = el.nonlagosLandmark && el.nonlagosLandmark.value.trim() ? el.nonlagosLandmark.value.trim() : "";
+  const lines = ["FACEFACTS NIGERIA — NEW CUSTOMER ORDER", ""];
+  customerDetailsLines().forEach(function (line) { lines.push(line); });
+  lines.push("");
+  lines.push("PRODUCTS ORDERED:");
+  lines.push("");
+  items.forEach(function (item, index) {
+    lines.push(String(index + 1) + ". " + item.name + " × " + item.qty);
+    lines.push("   Unit Price: " + formatNaira(item.price));
+    lines.push("   Subtotal: " + formatNaira(item.price * item.qty));
+    lines.push("");
+  });
+  lines.push("PRODUCT SUBTOTAL: " + formatNaira(subtotal));
+  lines.push("");
+  lines.push("DELIVERY INFORMATION:");
+  lines.push("");
+  lines.push("Selected State: " + state.selectedState);
+  lines.push("City/LGA: " + city);
+  lines.push("Exact Delivery Address: " + address);
+  if (landmark) lines.push("Nearby Landmark: " + landmark);
+  lines.push("");
+  lines.push("DELIVERY FEE: To be confirmed by Acavien Nig Ltd.");
+  lines.push("");
+  lines.push("PAYMENT: Delivery charges and payment account details will be provided by our customer service team on WhatsApp.");
+  lines.push("");
+  lines.push("Thank you for shopping with Facefacts Nigeria.");
+  return lines.join("\n");
+}
+function buildNonLagosUrl() {
+  return "https://wa.me/" + ORDER_WHATSAPP + "?text=" + encodeURIComponent(buildNonLagosMessage());
+}
+function sendNonLagosOrderToWhatsApp() {
+  window.open(buildNonLagosUrl(), "_blank", "noopener");
 }
 function showCopyFeedback(message, isError) {
   if (!el.copyFeedback) return;
@@ -1734,24 +1902,60 @@ if (el.nextPage) {
 el.cartToggle.addEventListener("click", openCart);
 el.cartClose.addEventListener("click", closeCart);
 el.checkout.addEventListener("click", handleCheckout);
+if (el.stateSelect) {
+  el.stateSelect.addEventListener("change", function () {
+    const selected = el.stateSelect.value;
+    if (NIGERIAN_STATES.indexOf(selected) === -1) return;
+    state.selectedState = selected;
+    hideFieldError(el.stateError);
+    if (selected !== LAGOS_STATE) {
+      state.deliveryLocation = null;
+      state.paymentConfirmed = false;
+      if (el.deliverySelect) el.deliverySelect.selectedIndex = 0;
+      if (el.paymentDialog && el.paymentDialog.open) el.paymentDialog.close();
+      hideFieldError(el.deliveryError);
+      hideFieldError(el.addressError);
+    } else {
+      hideFieldError(el.nonlagosCityError);
+      hideFieldError(el.nonlagosAddressError);
+    }
+    syncCheckoutSections();
+    updateCartTotals();
+  });
+}
 if (el.deliverySelect) {
   el.deliverySelect.addEventListener("change", function () {
     const location = DELIVERY_LOCATIONS.find(function (item) {
       return item.name === el.deliverySelect.value;
     });
-    if (!location) {
+    if (!location || !isLagosSelected()) {
       el.deliverySelect.value = state.deliveryLocation ? state.deliveryLocation.name : "";
       return;
     }
     state.deliveryLocation = { name: location.name, fee: location.fee };
     hideFieldError(el.deliveryError);
-    syncAddressVisibility();
+    syncCheckoutSections();
     updateCartTotals();
   });
 }
 if (el.address) {
   el.address.addEventListener("input", function () {
     if (el.address.value.trim()) hideFieldError(el.addressError);
+  });
+}
+if (el.customerName) {
+  el.customerName.addEventListener("input", function () {
+    if (el.customerName.value.trim()) hideFieldError(el.customerNameError);
+  });
+}
+if (el.nonlagosCity) {
+  el.nonlagosCity.addEventListener("input", function () {
+    if (el.nonlagosCity.value.trim()) hideFieldError(el.nonlagosCityError);
+  });
+}
+if (el.nonlagosAddress) {
+  el.nonlagosAddress.addEventListener("input", function () {
+    if (el.nonlagosAddress.value.trim()) hideFieldError(el.nonlagosAddressError);
   });
 }
 if (el.phone) {
@@ -1823,6 +2027,7 @@ el.clearCart.addEventListener("click", function () {
 buildCategoryOptions();
 setupHeroSlider();
 renderProducts();
+buildStateOptions();
 buildDeliveryOptions();
 renderCart();
 if (window.location.hash === "#verify-toggle") verification.dialog.showModal();
