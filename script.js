@@ -1172,7 +1172,8 @@ const products =[
         "name":  "Facefacts, ceramide hydrating gentle cleanser 400ml",
         "brand":  "Facefacts",
         "price":  6500,
-        "image":  "images/127- Facefacts, ceramide hydrating gentle cleanser 4500naira.jpg"
+        "image":  "images/127- Facefacts, ceramide hydrating gentle cleanser 4500naira.jpg",
+        "outOfStock": true
     }
     
     
