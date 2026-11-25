@@ -452,7 +452,8 @@ const products =[
         "name":  "Facefacts, ceramide hydrating body wash",
         "brand":  "Facefacts",
         "price":  6000,
-        "image":  "images/Facefacts, ceramide hydrating body wash.webp"
+        "image":  "images/Facefacts, ceramide hydrating body wash.webp",
+        "outOfStock": true
     },
     {
         "id":  75,
@@ -730,7 +731,8 @@ const products =[
         "name":  "Facefacts, ceramide oil control foaming cleanser",
         "brand":  "Facefacts",
         "price":  6500,
-        "image":  "images/128- Facefacts, ceramide oil control foaming cleanser 6500.jpg"
+        "image":  "images/128- Facefacts, ceramide oil control foaming cleanser 6500.jpg",
+        "outOfStock": true
     },
     {
         "id":  128,
