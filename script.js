@@ -266,7 +266,7 @@ const products =[
         "brand":  "Facefacts",
         "price":  3000,
         "image":  "images/Facefacts, step 02 superberry radiance serum.webp",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id":  49,
@@ -1064,7 +1064,8 @@ const products =[
         "name":  "Facefact, Friday social spf 50 sunscreen",
         "brand":  "Facefacts",
         "price":  6500,
-        "image":  "images/Facefact Friday social spf 50 sunscreen.webp"
+        "image":  "images/Facefact Friday social spf 50 sunscreen.webp",
+        "outOfStock": true
     },
     {
         "id":  446,
